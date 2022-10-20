@@ -1,0 +1,429 @@
+{
+	"info": {
+		"_postman_id": "c0416b84-d650-4da1-a257-b3bc2988723b",
+		"name": "Tasks App Production",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21206895"
+	},
+	"item": [
+		{
+			"name": "Without Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "maged elrashed",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "maged@example.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{tasks_url}}register",
+							"host": [
+								"{{tasks_url}}register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json = JSON.parse(responseBody);",
+									"// console.log(json.authorisation.token);",
+									"pm.environment.set(\"token\",json.authorisation.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{tasks_url}}login",
+							"host": [
+								"{{tasks_url}}login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.request.headers.add({key: 'accept', value: \"application/json\"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "With Auth",
+			"item": [
+				{
+					"name": "Tasks",
+					"item": [
+						{
+							"name": "Get All Taks",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{tasks_url}}tasks",
+									"host": [
+										"{{tasks_url}}tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Task Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}tasks/49",
+									"host": [
+										"{{tasks_url}}tasks"
+									],
+									"path": [
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Store Task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "first task",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "first description of the first task",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/Users/mostafa_mahfouz/Downloads/app_icon.png"
+										},
+										{
+											"key": "voice",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "start_date",
+											"value": "2022/01/10",
+											"type": "default"
+										},
+										{
+											"key": "end_date",
+											"value": "2022/01/11",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{tasks_url}}tasks",
+									"host": [
+										"{{tasks_url}}tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "second task",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "first description of the first task",
+											"type": "default"
+										},
+										{
+											"key": "start_date",
+											"value": "2022/01/10",
+											"type": "default"
+										},
+										{
+											"key": "end_date",
+											"value": "2022/01/11",
+											"type": "default"
+										},
+										{
+											"key": "status",
+											"value": "in_progress",
+											"type": "default"
+										},
+										{
+											"key": "_method",
+											"value": "PUT",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/Users/mostafa_mahfouz/Downloads/app_icon.png"
+										},
+										{
+											"key": "voice",
+											"type": "file",
+											"src": "/Users/mostafa/Music/iTunes/iTunes Media/Voice Memos/20190307 095116.m4a"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{tasks_url}}tasks/49",
+									"host": [
+										"{{tasks_url}}tasks"
+									],
+									"path": [
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Task",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}tasks/10",
+									"host": [
+										"{{tasks_url}}tasks"
+									],
+									"path": [
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter tasks by status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}tasks",
+									"host": [
+										"{{tasks_url}}tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "dashboard",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}tasks",
+									"host": [
+										"{{tasks_url}}tasks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Auth",
+					"item": [
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "alaa ali mohamad",
+											"type": "default"
+										},
+										{
+											"key": "profile_image",
+											"type": "file",
+											"src": "/Users/mostafa_mahfouz/Downloads/app_icon.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{tasks_url}}update-profile",
+									"host": [
+										"{{tasks_url}}update-profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}change-password",
+									"host": [
+										"{{tasks_url}}change-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}refresh",
+									"host": [
+										"{{tasks_url}}refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"token\",\"\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{tasks_url}}logout",
+									"host": [
+										"{{tasks_url}}logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.request.headers.add({key: 'Authorization', value: \"Bearer \" + pm.environment.get(\"token\")});",
+							"pm.request.headers.add({key: 'accept', value: \"application/json\"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
