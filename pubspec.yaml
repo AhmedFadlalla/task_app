@@ -52,6 +52,14 @@ dependencies:
   percent_indicator: ^4.2.2
   filter_list: ^1.0.2
   image_picker: ^0.8.6
+  flutter_sound: ^9.2.13
+  permission_handler: ^10.2.0
+  assets_audio_player: ^3.0.5
+  audioplayers: 1.0.1
+  record: 4.3.2
+
+
+
 
 dev_dependencies:
   flutter_test:

@@ -14,17 +14,18 @@ import '../component/compenent.dart';
 class RegisterationScreen extends StatelessWidget {
    RegisterationScreen({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
+   var nameController = TextEditingController();
+   var emailController = TextEditingController();
+   String emailLabel = 'E-Mail';
+
+   var passwordController = TextEditingController();
+   String passwordLabel = 'Password';
+
+   var phoneController = TextEditingController();
+   String phoneLabel = 'Phone';
   @override
   Widget build(BuildContext context) {
-    var nameController = TextEditingController();
-    var emailController = TextEditingController();
-    String emailLabel = 'E-Mail';
 
-    var passwordController = TextEditingController();
-    String passwordLabel = 'Password';
-
-    var phoneController = TextEditingController();
-    String phoneLabel = 'Phone';
 
     var height = MediaQuery.of(context).size.height;
     return BlocProvider(

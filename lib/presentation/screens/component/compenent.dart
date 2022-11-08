@@ -32,7 +32,18 @@ Widget defaultButton({
         ),
       ),
     );
-
+Widget defaultAudioButton({
+  double width = double.infinity,
+  Color background = mainColor,
+  required var function,
+  var fontSize,
+  bool isUpperCase = true,
+  double radius = 10.0,
+}) =>
+    MaterialButton(
+      onPressed: function,
+      child:const  Icon(Icons.keyboard_voice),
+    );
 Widget defaultTextButton(
         {
           required String text,

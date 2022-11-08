@@ -3,19 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../core/services/service_locator.dart';
+import '../../../core/utils/constrant.dart';
 import '../../../core/utils/enum.dart';
 import '../../controller/home/home_bloc.dart';
 import '../../controller/home/home_event.dart';
 import '../../controller/home/home_state.dart';
 class DashBoardComponent extends StatelessWidget {
-  const DashBoardComponent({Key? key}) : super(key: key);
+   final String token;
+   DashBoardComponent({Key? key,required this.token}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
     var height=MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (context)=>sl<HomeBloc>()..add(GetDashboardDataEvent()),
+      create: (context)=>sl<HomeBloc>()..add(GetDashboardDataEvent(token: token)),
       child: BlocBuilder<HomeBloc,HomeState>(
         builder: (context,state){
           switch(state.dashboardDataState){

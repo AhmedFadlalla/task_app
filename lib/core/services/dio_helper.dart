@@ -41,7 +41,7 @@ static Future<Response> postData({
     dio.options.headers = {
       'Authorization' : 'bearer $token',
     };
-    return   await dio.post(url,queryParameters: query,data: data);
+    return  await dio.post(url,queryParameters: query,data: data);
   }catch(error){
     print(error.toString());
     rethrow;
@@ -70,6 +70,25 @@ static Future<Response> postData({
      }catch(error){
        throw error;
      }
+   }
+
+   static Future<Response> deleteData({
+     required String url,
+     Map<String,dynamic>? query,
+     dynamic data,
+     String lang='en',
+     String? token,
+   })async{
+     try{
+       dio.options.headers = {
+         'Authorization' : 'bearer $token',
+       };
+       return await dio.delete(url,queryParameters: query,data: data);
+     }catch(error){
+       print(error.toString());
+       rethrow;
+     }
+
    }
 
 }

@@ -13,14 +13,19 @@ class GetAllTasksDataEvent extends BaseHomeEvent{
     required this.name
   });
 }
-class GetDashboardDataEvent extends BaseHomeEvent{}
+class GetDashboardDataEvent extends BaseHomeEvent{
+  final String token;
+
+  GetDashboardDataEvent({required this.token});
+}
 class GetImageFromGalleryEvent extends BaseHomeEvent{}
 class SendTaskDataEvent extends BaseHomeEvent{
   final String title;
   final String description;
   final String imagePath;
   final String imageName;
-  final String? voice;
+  final String voicePath;
+  final String voiceName;
   final String startDate;
   final String endDate;
 
@@ -31,7 +36,8 @@ class SendTaskDataEvent extends BaseHomeEvent{
         required this.description,
         required this.imagePath,
         required this.imageName,
-        this.voice,
+        required this.voiceName,
+        required this.voicePath,
         required this.startDate,
         required this.endDate,
       });
@@ -71,5 +77,12 @@ class UpdateTaskDataEvent extends BaseHomeEvent{
         this.voice,
         required this.startDate,
         required this.endDate,
+      });
+}
+class DeleteTaskDataEvent extends BaseHomeEvent{
+  final int  id;
+  DeleteTaskDataEvent(
+      {
+        required this.id
       });
 }

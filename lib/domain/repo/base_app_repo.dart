@@ -11,8 +11,9 @@ abstract class BaseAppRepository {
   Future<Either<Failure, BaseAuthData>> userSignIn(UserParameter parameter);
   Future<Either<Failure, List<BaseTaskData>>> getTasksByStatus(StatusParameter parameter);
 
-  Future<Either<Failure, BaseDashboardData>> getDashboardData();
+  Future<Either<Failure, BaseDashboardData>> getDashboardData(IdParameter parameter);
   Future<Either<Failure, BaseTaskData>> sendTaskData(TaskParameter parameter);
   Future<Either<Failure, BaseTaskData>> updateTaskData(TaskParameter parameter);
   Future<Either<Failure, BaseTaskData>> getTaskData(StatusParameter parameter);
+  Future<Either<Failure, void>> deleterTask(StatusParameter parameter);
 }

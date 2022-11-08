@@ -1,6 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 import '../../../core/services/service_locator.dart';
 import '../../../core/utils/enum.dart';
 import '../../controller/home/home_bloc.dart';
@@ -10,16 +12,24 @@ import 'compenent.dart';
 
 class TaskDetailsScreen extends StatelessWidget {
   final int taskId;
+
   TaskDetailsScreen({
     Key? key,
     required this.taskId
   }) : super(key: key);
+
   var titleController = TextEditingController();
+
   var descriptionController = TextEditingController();
+
   var startDateController = TextEditingController();
+
   var endDateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+
+    print(taskId);
     var width = MediaQuery
         .of(context)
         .size
@@ -28,10 +38,11 @@ class TaskDetailsScreen extends StatelessWidget {
         .of(context)
         .size
         .height;
-    return BlocProvider(
-      create: (context) => sl<HomeBloc>()..add(GetTaskDataEvent(id: taskId)),
+    return BlocProvider.value(
+      value: sl<HomeBloc>()..add(GetTaskDataEvent(id: taskId)),
       child: BlocConsumer<HomeBloc, HomeState>(
           builder: (context, state) {
+
             switch(state.taskDataState){
               case RequestState.loading:
                 return const Center(child: CircularProgressIndicator());
@@ -40,6 +51,7 @@ class TaskDetailsScreen extends StatelessWidget {
                 descriptionController.text=state.taskData!.description;
                 startDateController.text=state.taskData!.startDate;
                 endDateController.text=state.taskData!.endDate;
+                print("Task Image ${state.taskData!.image}");
                 return Scaffold(
                   appBar: AppBar(
                     title: const Text("Task Data"),
@@ -53,6 +65,9 @@ class TaskDetailsScreen extends StatelessWidget {
                             imageName: state.taskData!.title,
                             startDate: startDateController.text,
                             endDate: endDateController.text));
+                      }),
+                      defaultTextButton(text: 'Delete', pressedFunction: (){
+                        sl<HomeBloc>().add(DeleteTaskDataEvent(id: taskId));
                       })
                     ],
                   ),
@@ -65,11 +80,9 @@ class TaskDetailsScreen extends StatelessWidget {
                             child: Stack(
                               alignment: AlignmentDirectional.bottomEnd,
                               children: [
-                                const CircleAvatar(
+                                 CircleAvatar(
                                   radius: 50,
-                                  backgroundImage: NetworkImage(
-                                      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600"
-                                  ),
+                                  backgroundImage: state.taskData!.image!=''?NetworkImage("https://tasks.eraasoft.com/${state.taskData!.image}"):const NetworkImage('https://img.icons8.com/ios-filled/512/no-image.png') ,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -158,6 +171,8 @@ class TaskDetailsScreen extends StatelessWidget {
                           SizedBox(height: height * 0.1,),
 
 
+
+
                         ],
                       ),
                     ),
@@ -166,10 +181,16 @@ class TaskDetailsScreen extends StatelessWidget {
               case RequestState.error:
                 return Center(child: Text(state.taskDataMessage));
             }
-          }, listener: (context, state) {
+          },
+          listener: (context, state) {
         if(state.updateTaskState==RequestState.loaded) {
           Navigator.pop(context);
           showToast(text: "Task Update Successfully", state: ToastStates.SUCCESS);
+        }
+        if(state.deleteTaskDataState==RequestState.loaded) {
+          showToast(text: "Task Deleted Successfully", state: ToastStates.SUCCESS);
+          Navigator.pop(context);
+
         }
       }),
     );

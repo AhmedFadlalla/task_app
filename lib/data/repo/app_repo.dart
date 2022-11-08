@@ -46,8 +46,8 @@ class AppRepository extends BaseAppRepository{
   }
 
   @override
-  Future<Either<Failure, BaseDashboardData>> getDashboardData() async{
-    final result=await baseRemoteDataSource.getDashboardData();
+  Future<Either<Failure, BaseDashboardData>> getDashboardData(IdParameter parameter) async{
+    final result=await baseRemoteDataSource.getDashboardData(parameter);
     try{
       return Right(result);
     }on ServerFailure catch(failure){
@@ -81,6 +81,17 @@ class AppRepository extends BaseAppRepository{
     try{
       print(result);
       return Right(result);
+    }on ServerFailure catch(failure){
+      return Left(ServerFailure(failure.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleterTask(StatusParameter parameter) async{
+    final result=await baseRemoteDataSource.deleteTask(parameter);
+    try{
+
+      return Right(print("Delete Successfully"));
     }on ServerFailure catch(failure){
       return Left(ServerFailure(failure.message));
     }

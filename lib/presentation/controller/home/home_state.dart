@@ -18,9 +18,11 @@ class HomeState extends Equatable {
   final String dropDownValue;
    final RequestState updateTaskState;
    final String updateTaskMessage;
-   final BaseTaskData? taskData;
+    final BaseTaskData? taskData;
    final RequestState taskDataState;
    final String taskDataMessage;
+   final RequestState deleteTaskDataState;
+   final String deleteTaskDataMessage;
 
 
 
@@ -40,6 +42,8 @@ class HomeState extends Equatable {
     this.updateTaskMessage='',
     this.image,
     this.dropDownValue='',
+    this.deleteTaskDataState=RequestState.loading,
+    this.deleteTaskDataMessage=''
   });
   HomeState copyWith({
     List<BaseTaskData>? tasksData,
@@ -57,6 +61,8 @@ class HomeState extends Equatable {
      BaseTaskData? taskData,
      RequestState? taskDataState,
      String? taskDataMessage,
+    RequestState? deleteTaskDataState,
+    String? deleteTaskDataMessage,
 })=>HomeState(
       tasksData:tasksData??this.tasksData,
       tasksDataState:tasksDataState??this.tasksDataState,
@@ -72,7 +78,9 @@ class HomeState extends Equatable {
     updateTaskState: updateTaskState??this.updateTaskState,
       taskData:taskData??this.taskData,
     taskDataState: taskDataState??this.taskDataState,
-      taskDataMessage:taskDataMessage??this.taskDataMessage
+      taskDataMessage:taskDataMessage??this.taskDataMessage,
+    deleteTaskDataState: deleteTaskDataState??this.deleteTaskDataState,
+    deleteTaskDataMessage: deleteTaskDataMessage??this.deleteTaskDataMessage
 
   );
 
@@ -82,7 +90,8 @@ class HomeState extends Equatable {
     tasksData,tasksDataState,tasksDataMessage,
     dashboardData,dashboardDataState,dashboardDataMessage,
     image,dropDownValue,updateTaskMessage,updateTaskState,
-    taskData,taskDataMessage,taskDataState
+    taskData,taskDataMessage,taskDataState,
+    deleteTaskDataState,deleteTaskDataMessage
   ];
 
 

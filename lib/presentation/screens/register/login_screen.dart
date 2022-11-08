@@ -16,12 +16,11 @@ import '../home_screen.dart';
 class UserLoginScreen extends StatelessWidget {
   UserLoginScreen({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var emailController = TextEditingController();
 
-
-    var passwordController = TextEditingController();
     var height = MediaQuery.of(context).size.height;
     return BlocProvider(
       create: (BuildContext context)=>sl<RegisterBloc>(),
@@ -166,7 +165,7 @@ class UserLoginScreen extends StatelessWidget {
           if(state.userAccessToken!=null){
             CachHelper.saveData(key: "uId", value: state.userAccessToken!.token)
                 .then((value) {
-              navigateTo(context,  HomeScreen());
+              navigateTo(context,  HomeScreen(token: state.userAccessToken!.token,));
             });
 
           }

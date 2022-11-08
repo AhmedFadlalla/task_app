@@ -12,23 +12,17 @@ import '../../controller/home/home_bloc.dart';
 import '../../controller/home/home_event.dart';
 import '../../controller/home/home_state.dart';
 
-class TasksDataComponent extends StatefulWidget {
+class TasksDataComponent extends StatelessWidget {
   final String status;
    TasksDataComponent({
      Key? key,required this.status
    }) : super(key: key);
 
   @override
-  State<TasksDataComponent> createState() => _TasksDataComponentState();
-}
-
-class _TasksDataComponentState extends State<TasksDataComponent> {
-
-  @override
   Widget build(BuildContext context) {
 
-    return BlocProvider(
-      create: (context) => sl<HomeBloc>()..add(GetAllTasksDataEvent(name:widget.status)),
+    return BlocProvider.value(
+      value: sl<HomeBloc>()..add(GetAllTasksDataEvent(name:status)),
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           switch(state.tasksDataState){
@@ -36,26 +30,31 @@ class _TasksDataComponentState extends State<TasksDataComponent> {
               return const Center(child: CircularProgressIndicator(),);
             case RequestState.loaded:
               var tasksData=state.tasksData;
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                      widget.status,
-                    style: TextStyle(
-                      color: Colors.black
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      status,
+                      style: TextStyle(
+                          color: Colors.black
+                      ),
                     ),
                   ),
-                ),
-                body: SingleChildScrollView(
-                  child: Container(
+                  body:tasksData.isNotEmpty? Container(
                     child: ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemBuilder: (context,index)=>buildItem(tasksData[index]),
+                        itemBuilder: (context,index)=>buildItem(tasksData[index],context),
                         separatorBuilder: (context,index)=>myDivider(),
                         itemCount: state.tasksData.length),
-                  ),
-                ),
-              );
+                  ):const
+                  Center(child: Text(
+                      "No Tasks",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold
+                    ),
+                  )),
+                );
             case RequestState.error:
               return  Center(child: Text(state.tasksDataMessage),);
           }
@@ -64,7 +63,7 @@ class _TasksDataComponentState extends State<TasksDataComponent> {
     );
   }
 
-  Widget buildItem(BaseTaskData data)=>InkWell(
+  Widget buildItem(BaseTaskData data,context)=>GestureDetector(
     onTap: (){
       navigateTo(context, TaskDetailsScreen(taskId: data.id,));
     },

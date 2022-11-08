@@ -14,8 +14,6 @@ void main() async{
   await DioHelper.init();
   await CachHelper.init();
   ServicesLocator().init();
-
-
   uId=CachHelper.getData(key: "uId");
   Widget widget;
   if(uId!=null){
@@ -23,7 +21,7 @@ void main() async{
   }else{
     widget=const OnBoardingScreen();
   }
-  runApp(  MyApp(startWidget: UserLoginScreen() ,));
+  runApp(  MyApp(startWidget: widget ,));
 }
 
 class MyApp extends StatelessWidget {
@@ -56,9 +54,7 @@ final Widget startWidget;
 
         ),
       ),
-      home: startWidget,
+      home:startWidget,
     );
   }
 }
-
-
